@@ -72,8 +72,6 @@ app.get('/',getHomePage);
 app.get('/insertdb',insertUser);
 app.get('/finddb',findUser);
 
-app.set('port',process.env.port || 8080);
-
-app.listen(app.get('port'),function() {
-	console.log('Starting node.js on port ' + app.get('port'));
+app.listen(process.env.PORT || 3000,function() {
+	console.log('Starting node.js on port' + process.env.PORT);
 });
