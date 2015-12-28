@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MainPage</title>
+</head>
+<script src="./node_modules/angular/angular.min.js"></script>
+<script src="./server.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+	<div ng-app="myApp" ng-controller="MainController">
+
+		<a ng-href="/forminsertmember">Insert Postman</a>
+		<a ng-href="/forminsertorder">Insert Order</a>
+
+		<form novalidate>
+			First Name:
+			<input type="text" ng-model="user.firstname"><br>
+			Last Name:
+			<input type="text" ng-model="user.lastname"><br>
+			<button ng-click="reset()">RESET</button>
+		</form>
+		<p>form={{user}}</p>
+
+	</div>
+
+
+
+	<script>
+		var myApp = angular.module('myApp',[]);
+
+		myApp.controller('MainController', function($scope){
+			$scope.user = {firstname:"test",lastname:"test2"};
+			
+		});
+	</script>	
+</body>
+</html>
+
+

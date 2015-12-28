@@ -6,6 +6,7 @@
   "dependencies": {
     "angular": "^1.4.8",
     "body-parser": "^1.14.2",
+    "ejs": "^2.3.4",
     "express": "^4.13.3",
     "mongojs": "^2.2.2"
   },

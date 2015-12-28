@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Form Insert Postman</title>
+</head>
+<script src="./node_modules/angular/angular.min.js"></script>
+<script src="./server.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+	<div ng-app="myApp" ng-controller="MainController" novalidate>
+
+		<form name="myForm" ng-submit="submit()">
+			Username:
+			<input type="text" name="username" ng-model="postman.username" required/><br>
+			Password:
+			<input type="password" name="password" ng-model="postman.password" required/><br>
+			<input type="submit" value="SUBMIT" ng-disabled="myForm.username.$invalid || myForm.password.$invalid"/>
+		</form>
+		<p>form={{postman}}</p>
+
+	</div>
+
+
+
+	<script>
+		var myApp = angular.module('myApp',[]);
+
+		myApp.controller('MainController', function($scope){
+			//$scope.user = {firstname:"test",lastname:"test2"};
+			$scope.submit = function(){
+				$scope.postman = {eiei:"asfsaf"};
+			};
+		});
+	</script>	
+</body>
+</html>
+
+
