@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Form Insert Postman</title>
+	<title>Form Insert Order</title>
 </head>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <body>
@@ -9,10 +9,10 @@
 
 		<form name="myForm" ng-submit="SendData()">
 			Username:
-			<input type="text" name="username" ng-model="postman.username" required/><br>
-			Password:
-			<input type="password" name="password" ng-model="postman.password" required/><br>
-			<input type="submit" value="Submit" ng-disabled="myForm.username.$invalid || myForm.password.$invalid"/>
+			<input type="text" name="username" ng-model="order.username" required/><br>
+			Tag:
+			<input type="text" name="tag" ng-model="order.tag" required/><br>
+			<input type="submit" value="Submit" ng-disabled="myForm.username.$invalid || myForm.tag.$invalid"/>
 		</form>
 		<p>{{PostDataResponse}}</p>
 
@@ -28,15 +28,15 @@
 		$scope.SendData = function(){
 
 			var dataSend = {
-				username:$scope.postman.username,
-				password:$scope.postman.password
+				username:$scope.order.username,
+				tag:$scope.order.tag
 			};
 
 			var req = {
-				 method: 'POST',
-				 url: '../reqinsertmember',
-				 headers : {'Content-Type': 'application/json'},
-				 data: {username:$scope.postman.username,password:$scope.postman.password}
+				method: 'POST',
+			 	url: '../reqinsertorder',
+			 	headers : {'Content-Type': 'application/json'},
+			 	data: dataSend
 			};
 
 			$http(req).then(function(res){$scope.PostDataResponse = res.data},function(error){$scope.PostDataResponse="error to send request"});

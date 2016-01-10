@@ -48,14 +48,90 @@ var findUser = function(req,res){
 
 
 var getHomePage = function(req,res){
-	//res.render("../index.html");
-	res.send("test ja");
+	res.render("../index.html");
+	//res.send("test ja");
 };
 
 var formMember = function(req,res){
 	//res.render("../forminsertmember.html");
-	res.send("eiei");
-}
+	res.render("../forminsertmember");
+};
+
+var reqMember = function(req,res){
+	//res.send("1111111");
+	//console.log(req.body.username);
+
+	var username_req_ins = req.body.username;
+	var pass_req_ins = req.body.password;
+
+	var rec = {
+		username:username_req_ins,
+		password:pass_req_ins
+	};
+
+	db.member.findOne({username:username_req_ins},function(err,docs){
+		if(err) {
+			res.send("error to find");
+		}
+		else if(docs){
+			res.send("this username already used");
+		}
+		else{
+			db.member.insert(rec,function(err){
+				if(err){
+					res.send("error to insert");
+				}
+				else{
+					res.send("success");
+				}
+			});
+		}
+	});
+
+};
+
+var formOrder = function(req,res){
+	res.render("../forminsertorder");
+};
+
+var reqOrder = function(req,res){
+
+
+	db.member.findOne({username:req.body.username},function(err,doc){
+		if(err){
+			res.send("error to check");
+		}
+		else if(doc){
+			db.counter.findAndModify({
+				query:{_id:"userid"},
+				update:{$inc:{seq:1}},
+				new: true
+			},function(err2,doc2,lastErrorObject){
+				var rec = {
+					username:req.body.username,
+					order:doc2.seq,
+					//tag:"0ab2d5e5",
+					tag:req.body.tag,
+					status:"fail",
+					datetime:"01/01/1970, 1:00:00 AM"
+				};
+
+				db.order.insert(rec,function(err3){
+					if(err3){
+						res.send("fail to insert");
+					}
+					else{
+						res.send("success");
+					}
+				});
+
+			});
+		}
+		else{
+			res.send("can't found ur username");
+		}
+	});
+};
 
 var insertOrder = function(req,res){
 
@@ -144,7 +220,11 @@ var sendService = function(req,res){
 
 
 app.get('/',getHomePage);
+app.get('/index',getHomePage);
 app.get('/forminsertmember',formMember);
+app.post('/reqinsertmember',reqMember);
+app.get('/forminsertorder',formOrder);
+app.post('/reqinsertorder',reqOrder);
 app.get('/insertorder',insertOrder);
 app.get('/finddb',findUser);
 app.post('/api/test',function(req,res){
