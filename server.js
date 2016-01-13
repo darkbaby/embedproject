@@ -160,6 +160,43 @@ var insertOrder = function(req,res){
 			});
 };
 
+var getMember = function(req,res){
+
+	db.member.find(function(err,docs){
+		if(err){
+			res.send("error to show");
+		}
+		else{
+			var arrayRe = [];
+			docs.forEach(function(rec){
+				var each_rec = {username:rec.username};
+
+				arrayRe.push(each_rec);
+			});
+			//console.log(arrayRe);
+			res.send(arrayRe);
+		}
+	});
+
+}
+
+var getOrder = function(req,res){
+	db.order.find(function(err,docs){
+		if(err){
+			res.send("error to show");
+		}
+		else{
+			var arrayRe = [];
+			docs.forEach(function(rec){
+				var each_rec = {username:rec.username,order:rec.order,tag:rec.tag,status:rec.status,datetime:rec.datetime};
+				arrayRe.push(each_rec);
+			});
+			//console.log(arrayRe);
+			res.send(arrayRe);
+		}
+	});
+}
+
 var postmanService = function(req,res){
 	var username_req = req.body.username;
 	var pass_req = req.body.pass;
@@ -226,6 +263,9 @@ app.post('/reqinsertmember',reqMember);
 app.get('/forminsertorder',formOrder);
 app.post('/reqinsertorder',reqOrder);
 app.get('/insertorder',insertOrder);
+app.post('/getMember',getMember);
+app.post('/getOrder',getOrder);
+app.get('/getOrder',getOrder);
 app.get('/finddb',findUser);
 app.post('/api/test',function(req,res){
 	var test1 = req.body.id;

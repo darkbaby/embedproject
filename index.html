@@ -9,6 +9,33 @@
 
 		<a ng-href="/forminsertmember">Insert Postman</a>
 		<a ng-href="/forminsertorder">Insert Order</a>
+		<hr/>
+		<button ng-click="ShowDataMember()">Show Member</button>
+		<button ng-click="ShowDataOrder()">Show Order</button>
+
+		<table ng-show="membershow">
+    		<tr>
+        		<th>Username</th>
+    		</tr>
+    			<tr ng-repeat="person in PostDataResponse">
+        			<td>{{person.username}}</td>
+    		</tr>
+		</table>
+
+		<table ng-show="ordershow">
+    		<tr>
+        		<th>Username</th>
+        		<th>tag</th>
+        		<th>status</th>
+        		<th>datetime</th>
+    		</tr>
+    			<tr ng-repeat="person in PostDataResponse">
+        			<td>{{person.username}}</td>
+        			<td>{{person.tag}}</td>
+        			<td>{{person.status}}</td>
+        			<td>{{person.datetime}}</td>
+    		</tr>
+		</table>
 
 	</div>
 
@@ -17,9 +44,53 @@
 	<script>
 		var myApp = angular.module('myApp',[]);
 
-		myApp.controller('MainController', function($scope){
-			$scope.user = {firstname:"test",lastname:"test2"};
-			
+		myApp.controller('MainController', function($scope,$http){
+
+		$scope.membershow = false;
+		$scope.ordershow = false;
+
+		$scope.ShowDataMember = function(){
+
+			$scope.membershow = true;
+			$scope.ordershow = false;
+			/*var dataSend = {
+				username:$scope.postman.username,
+				password:$scope.postman.password
+			};*/
+
+			var req = {
+				 method: 'POST',
+				 url: '../getMember'
+				 //headers : {'Content-Type': 'application/json'}
+				 //data: {username:$scope.postman.username,password:$scope.postman.password}
+			};
+
+			$http(req).then(function(res){
+				$scope.PostDataResponse = res.data
+			},function(error){$scope.PostDataResponse="error to send request"});
+			};
+
+		$scope.ShowDataOrder = function(){
+
+			$scope.membershow = false;
+			$scope.ordershow = true;
+			/*var dataSend = {
+				username:$scope.postman.username,
+				password:$scope.postman.password
+			};*/
+
+			var req = {
+				 method: 'GET',
+				 url: '../getOrder'
+				 //headers : {'Content-Type': 'application/json'}
+				 //data: {username:$scope.postman.username,password:$scope.postman.password}
+			};
+
+			$http(req).then(function(res){
+				$scope.PostDataResponse = res.data
+			},function(error){$scope.PostDataResponse="error to send request"});
+			};
+
 		});
 	</script>	
 </body>
